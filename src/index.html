@@ -5,19 +5,55 @@
     <title>Title</title>
 </head>
 <body>
-    <ul id="skills-tree"></ul>
-    <script src="./helpers/parseJSON.js"></script>
-    <script>
-        var fileName = 'skills_tree_example.json';
-        var sourceFile = new SourceFile();
-        
-        sourceFile.loadFile(fileName)
+<style>
+    #skills-tree, #skills-tree .skill-name {
+        list-style-type: none;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: large;
+    }
+
+    #skills-tree .skill-name ul {
+        font-weight: 400;
+        font-size: inherit;
+        cursor: default;
+    }
+
+    #skills-tree .skill-name:before {
+        content: " - ";
+    }
+
+    #skills-tree .skill-name .close:before, #skills-tree .close:before {
+        content: " + ";
+    }
+
+    #skills-tree .skill-name .close ul, #skills-tree .close ul {
+        display: none;
+    }
+</style>
+<ul id="skills-tree"></ul>
+<script src="./helpers/parseJSON.js"></script>
+<script>
+    var fileName = 'skills_tree_example.json';
+    var sourceFile = new SourceFile();
+    var rootElement = document.getElementById('skills-tree');
+    sourceFile.loadFile(fileName)
             .then(function (response) {
                 sourceFile.getElementFromJSON(response);
+                rootElement.addEventListener('click', function (e) {
+                    var element = e.target;
+                    if (element.classList.contains('skill-name')) {
+                        if (element.classList.contains('close')) {
+                            element.classList.remove('close');
+                        } else {
+                            element.className += ' close';
+                        }
+                    }
+                })
             })
             .catch(function (e) {
                 console.log(e);
             });
-    </script>
+</script>
 </body>
 </html>

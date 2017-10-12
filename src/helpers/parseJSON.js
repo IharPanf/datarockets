@@ -1,4 +1,5 @@
-function SourceFile() {}
+function SourceFile() {
+}
 
 SourceFile.prototype.loadFile = function (fileName) {
     return new Promise(function (resolve, reject) {
@@ -23,13 +24,14 @@ SourceFile.prototype.getElementFromJSON = function (object) {
 
 SourceFile.prototype.getProperty = function (objJSON, parentElem) {
     var self = this;
-    
+
     for (var prop in objJSON) {
         if (objJSON.hasOwnProperty(prop)) {
             if (typeof objJSON[prop] === 'object') {
                 var elemUl = document.createElement('ul');
                 var newParentElem = elemUl;
                 if (elemLi) {
+                    elemLi.className = 'skill-name';
                     elemLi.appendChild(elemUl);
                 }
 
@@ -45,3 +47,4 @@ SourceFile.prototype.getProperty = function (objJSON, parentElem) {
         }
     }
 };
+
